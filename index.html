@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sereno Retreat · private farmhouse stay</title>
+  <meta name="description" content="Sereno Retreat: a private farmhouse for your friends and family. Weekdays ₹5,999, weekends ₹6,999, up to 8 guests included. Check-in 12:30 PM, check-out 10:00 AM.">
+  <meta name="theme-color" content="#f7f1e3">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23f4b942'/%3E%3Cpath d='M12 40l20-17 20 17v14H12z' fill='%23f7f1e3' stroke='%231f2a22' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M28 54V43h8v11' fill='none' stroke='%231f2a22' stroke-width='3'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500..700&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Outfit:wght@300..700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>document.documentElement.classList.add('js', 'is-loading');</script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <!-- 0 · Loader: the windows fill with warm light, then the door is drawn -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__house">
+      <svg viewBox="0 0 140 130">
+        <defs>
+          <clipPath id="loaderClip"><path d="M18 60L70 16l52 44v62H18z"/></clipPath>
+          <linearGradient id="loaderGlow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffd27a"/>
+            <stop offset="1" stop-color="#f08a3c"/>
+          </linearGradient>
+        </defs>
+        <g clip-path="url(#loaderClip)">
+          <path class="loader__glow" id="loaderGlowFill" fill="url(#loaderGlow)" d="M0 130h140v130H0z"/>
+        </g>
+        <path class="loader__outline" d="M8 66L70 12l62 54M18 58v64h104V58"/>
+        <path class="loader__outline" d="M96 30V16h12v24"/>
+        <path class="loader__door" pathLength="1" d="M58 122V90a12 12 0 0 1 24 0v32"/>
+      </svg>
+    </div>
+    <div class="loader__count" id="loaderCount">000</div>
+    <p class="loader__msg" id="loaderMsg">Unlocking the gate</p>
+  </div>
+
+  <!-- the one WebGL canvas -->
+  <canvas id="world" aria-hidden="true"></canvas>
+  <canvas id="drift" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="bubble" id="bubble" role="status" aria-live="polite"></div>
+
+  <!-- 1 · Nav -->
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="#top" aria-label="Sereno Retreat, back to top">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+        <g class="mark__rays"><path d="M24 2v5M9 9l3.5 3.5M39 9l-3.5 3.5M2 22h5M41 22h5"/></g>
+        <circle class="mark__sun" cx="24" cy="24" r="11"/>
+        <path class="mark__hill" d="M3 40c7-8 14-10 21-6s14 2 21-4v14H3z"/>
+        <path class="mark__house" d="M17 36v-7l7-6 7 6v7z"/>
+      </svg>
+      <span class="nav__name">Sereno<small>retreat</small></span>
+    </a>
+    <nav class="nav__links" aria-label="Sections">
+      <a href="#stay">The stay</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#inside">What you get</a>
+      <a href="#location">Location</a>
+      <a href="#policy">Policy</a>
+    </nav>
+    <div class="nav__end">
+      <a class="callbtn" href="tel:+919989542998" aria-label="Call Sereno Retreat">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M11.2 5.5l2.6 5.2-2.3 2.2a14 14 0 0 0 7.6 7.6l2.2-2.3 5.2 2.6-.9 4.3c-.2.9-1 1.5-2 1.4C13.8 25.7 6.3 18.2 5.5 8.4c-.1-1 .5-1.8 1.4-2z"/></svg>
+      </a>
+      <a class="btn btn--terra btn--sm nav__cta" href="#book">Book now</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- 2 · Hero -->
+    <section class="hero" id="top" data-stage="hero">
+      <div class="hero__sun" aria-hidden="true">
+        <div class="hero__rays"></div>
+        <div class="hero__disc"></div>
+      </div>
+
+      <div class="hero__copy">
+        <p class="eyebrow eyebrow--live" data-hero-in><span class="pulse"></span>private farmhouse · now taking bookings</p>
+        <h1 class="hero__title">
+          <span class="line"><span>Sereno,</span></span>
+          <span class="line"><span><em>slow down.</em></span></span>
+        </h1>
+        <p class="hero__lede" data-hero-in>A private farmhouse for your friends and family. Long lunches, golden evenings, late nights and lazy mornings, from 12:30 PM till 10 AM the next day.</p>
+        <div class="hero__cta" data-hero-in>
+          <a class="btn btn--terra" href="#book">Check prices</a>
+          <button class="btn btn--ghost" type="button" data-ask>Switch on the lights</button>
+        </div>
+      </div>
+
+      <p class="psst" data-hero-in>
+        psst, tap the house
+        <svg viewBox="0 0 60 40" aria-hidden="true"><path d="M3 6c14-2 30 4 38 14s9 12 13 15M54 35l-1-10M54 35l-9-3"/></svg>
+      </p>
+
+      <div class="marquee" aria-label="At a glance">
+        <div class="marquee__track">
+          <span>The whole farmhouse, just for you</span><i>✺</i><span>Up to 8 guests included</span><i>✺</i><span>Check-in 12:30 PM</span><i>✺</i><span>Check-out 10:00 AM</span><i>✺</i><span>Parties · family time · weekend chill</span><i>✺</i><span>Weekdays from ₹5,999</span><i>✺</i>
+          <span aria-hidden="true">The whole farmhouse, just for you</span><i>✺</i><span aria-hidden="true">Up to 8 guests included</span><i>✺</i><span aria-hidden="true">Check-in 12:30 PM</span><i>✺</i><span aria-hidden="true">Check-out 10:00 AM</span><i>✺</i><span aria-hidden="true">Parties · family time · weekend chill</span><i>✺</i><span aria-hidden="true">Weekdays from ₹5,999</span><i>✺</i>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · The stay (pinned): the clock runs from check-in to check-out -->
+    <section class="stay torn" id="stay">
+      <div class="backdrop stay__sky" aria-hidden="true">
+        <div class="stay__stars"></div>
+        <div class="stay__orb"></div>
+      </div>
+      <div class="stage stay__stage" data-stage="stay">
+        <div class="stay__top">
+          <p class="eyebrow">your stay</p>
+          <div class="stay__heads">
+            <h2 class="h2 stay__head is-on" data-head="0">Check in. <em>The gates are yours.</em></h2>
+            <h2 class="h2 stay__head" data-head="1" aria-hidden="true">Golden hour. <em>Nowhere to be.</em></h2>
+            <h2 class="h2 stay__head" data-head="2" aria-hidden="true">Lights on. <em>Music up.</em></h2>
+            <h2 class="h2 stay__head" data-head="3" aria-hidden="true">Slow morning. <em>Out by 10.</em></h2>
+          </div>
+        </div>
+
+        <div class="clock" aria-hidden="true">
+          <span class="clock__time" data-clock>12:30 PM</span>
+          <span class="clock__day" data-clock-day>check-in day</span>
+        </div>
+
+        <svg class="leaders" aria-hidden="true"></svg>
+
+        <div class="tag tag--l" data-i="0" data-anchor="door"><b>Check-in 12:30 PM</b><span>the keys are yours from lunchtime</span></div>
+        <div class="tag tag--l" data-i="1" data-anchor="verandah"><b>Up to 8 guests</b><span>included in the price</span></div>
+        <div class="tag tag--l" data-i="2" data-anchor="lawn"><b>Completely private</b><span>no other bookings, no strangers</span></div>
+        <div class="tag tag--r" data-i="0" data-anchor="window"><b>Check-out 10:00 AM</b><span>a slow morning before you head home</span></div>
+        <div class="tag tag--r" data-i="1" data-anchor="roof"><b>Bringing more?</b><span>₹250 per extra guest</span></div>
+        <div class="tag tag--r" data-i="2" data-anchor="lights"><b>Made for get-togethers</b><span>parties, family time, weekend chill</span></div>
+
+        <ul class="pills" aria-label="At a glance">
+          <li class="pill" style="--n:0"><b>21½ hrs</b> of stay</li>
+          <li class="pill" style="--n:1"><b>8</b> guests included</li>
+          <li class="pill" style="--n:2"><b>100%</b> private</li>
+          <li class="pill" style="--n:3"><b>₹250</b> per extra guest</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4 · Pricing and the booking planner -->
+    <section class="pricing torn" id="pricing">
+      <div class="container">
+        <header class="pricing__head" data-reveal>
+          <div>
+            <p class="eyebrow">pricing</p>
+            <h2 class="h2">One price. <em>The whole place.</em></h2>
+            <p class="pricing__lede">For up to 8 of you, plus maintenance. Pick your day and we'll do the sums.</p>
+          </div>
+          <div class="seg" role="group" aria-label="Day of stay" data-rate-toggle>
+            <button type="button" data-rate="weekday" aria-pressed="true">Weekday</button>
+            <button type="button" data-rate="weekend" aria-pressed="false">Weekend</button>
+          </div>
+        </header>
+
+        <div class="pricing__grid">
+          <article class="rate rate--day is-picked" data-rate-card="weekday" data-reveal>
+            <div class="rate__img"><img alt="The Sereno farmhouse in the afternoon sun" data-shot="weekday"></div>
+            <div class="rate__body">
+              <h3>Weekdays</h3>
+              <p data-days="weekday">Monday to Friday check-in. Quiet roads, the place all to yourselves.</p>
+              <div class="rate__foot">
+                <span class="rate__price">₹<b data-price="weekday">5,999</b> <small>+ maintenance</small></span>
+                <button class="btn btn--terra btn--sm" type="button" data-pick="weekday">Pick a weekday</button>
+              </div>
+            </div>
+          </article>
+          <article class="rate rate--end" data-rate-card="weekend" data-reveal>
+            <span class="rate__badge">party mode</span>
+            <div class="rate__img"><img alt="The Sereno farmhouse in the evening with its lights on" data-shot="weekend"></div>
+            <div class="rate__body">
+              <h3>Weekends</h3>
+              <p data-days="weekend">Saturday and Sunday check-in. Made for the big get-together.</p>
+              <div class="rate__foot">
+                <span class="rate__price">₹<b data-price="weekend">6,999</b> <small>+ maintenance</small></span>
+                <button class="btn btn--terra btn--sm" type="button" data-pick="weekend">Pick a weekend</button>
+              </div>
+            </div>
+          </article>
+
+          <form class="planner" id="book" data-reveal novalidate>
+            <p class="eyebrow">plan your stay</p>
+            <div class="planner__field">
+              <label for="plan-date">Check-in date</label>
+              <input id="plan-date" type="date" name="date">
+              <p class="planner__hint" data-date-hint>Check-in 12:30 PM · check-out 10:00 AM next day</p>
+            </div>
+            <div class="planner__field">
+              <label for="plan-guests">Guests</label>
+              <div class="stepper">
+                <button type="button" data-step="-1" aria-label="One guest fewer">−</button>
+                <input id="plan-guests" type="number" name="guests" inputmode="numeric" min="1" max="60" value="8">
+                <button type="button" data-step="1" aria-label="One more guest">+</button>
+              </div>
+            </div>
+            <dl class="planner__sum" aria-live="polite">
+              <div><dt data-sum-label>Weekday stay, up to 8 guests</dt><dd data-sum-base>₹5,999</dd></div>
+              <div class="planner__extra" data-sum-extra-row hidden><dt data-sum-extra-label>0 extra guests × ₹250</dt><dd data-sum-extra>₹0</dd></div>
+              <div><dt>Maintenance</dt><dd>shared when you book</dd></div>
+              <div class="planner__total"><dt>Estimate</dt><dd><b data-sum-total>₹5,999</b> <small>+ maintenance</small></dd></div>
+            </dl>
+            <a class="btn btn--wa" href="https://wa.me/919989542998" target="_blank" rel="noopener" data-whatsapp>
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4a12 12 0 0 0-10.4 18L4 28l6.2-1.6A12 12 0 1 0 16 4z"/><path d="M11.5 10.5c.4-.9 1.4-.9 1.7 0l.8 2c.1.4 0 .8-.3 1.1l-.6.6a8 8 0 0 0 3.7 3.7l.6-.6c.3-.3.7-.4 1.1-.3l2 .8c.9.3.9 1.3 0 1.7-2.6 1.4-10.1-6-9-9z" class="fill"/></svg>
+              Ask on WhatsApp
+            </a>
+            <p class="planner__note">Sends your dates and guest count to us on WhatsApp. We'll confirm availability and the maintenance charge.</p>
+          </form>
+        </div>
+        <p class="pricing__note" data-reveal>Up to 8 guests included · ₹250 per extra guest · maintenance charged extra · check-in 12:30 PM · check-out 10:00 AM</p>
+      </div>
+    </section>
+
+    <!-- 5 · What you get (pinned, night) -->
+    <section class="inside torn" id="inside" data-nav-dark>
+      <div class="backdrop inside__backdrop" aria-hidden="true"><div class="inside__glow"></div><div class="inside__stars"></div></div>
+      <div class="stage inside__stage" data-stage="inside">
+        <div class="inside__copy">
+          <p class="eyebrow">what you get</p>
+          <h2 class="h2">Your own place. <em>Your own pace.</em></h2>
+          <div class="seg seg--dark" role="group" aria-label="Mood" data-mood-toggle>
+            <button type="button" data-mood="family" aria-pressed="true">Family</button>
+            <button type="button" data-mood="party" aria-pressed="false">Party</button>
+          </div>
+          <ol class="steps">
+            <li class="step" data-step-i="0">
+              <span class="step__mark"><span>1</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+              <div><h3>Private farmhouse access</h3><p>The gate opens for your group only. Nobody else books it while you're there.</p></div>
+            </li>
+            <li class="step" data-step-i="1">
+              <span class="step__mark"><span>2</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+              <div><h3>Made for parties and family time <span class="step__count"><span data-bulb-count>0</span>/<span data-bulb-total>66</span></span></h3><p>Birthdays, reunions, a long lunch with the cousins. Bring the playlist.</p></div>
+            </li>
+            <li class="step" data-step-i="2">
+              <span class="step__mark"><span>3</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+              <div><h3>Peaceful and relaxing</h3><p>When the music stops, it's just crickets, fireflies and a slow weekend chill.</p></div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · Location (pinned) -->
+    <section class="where torn" id="location">
+      <div class="backdrop where__sky" aria-hidden="true"><div class="where__sun"></div></div>
+      <div class="stage where__stage" data-stage="estate">
+        <div class="where__copy">
+          <p class="eyebrow">find us</p>
+          <h2 class="h2">A quiet place, <em>easy to find.</em></h2>
+          <p class="where__lede">Tap below for directions in Google Maps, then message us when you're on your way.</p>
+          <dl class="stats">
+            <div><dt><span data-count-to="21">0</span>½ hrs</dt><dd>of stay</dd></div>
+            <div><dt><span data-count-to="8">0</span></dt><dd>guests included</dd></div>
+            <div><dt>₹<span data-count-to="250">0</span></dt><dd>per extra guest</dd></div>
+          </dl>
+          <div class="where__cta">
+            <a class="btn btn--terra" href="https://maps.app.goo.gl/rzSwaBsZPAJosWhr6?g_st=aw" target="_blank" rel="noopener">Open in Google Maps</a>
+            <a class="btn btn--ghost" href="#book">Book now</a>
+          </div>
+        </div>
+
+        <div class="hotspot" data-spot="gate"><i></i><div class="hotspot__card"><b>The gate</b><span>Open from 12:30 PM. Close it behind you and the place is yours.</span></div></div>
+        <div class="hotspot" data-spot="house"><i></i><div class="hotspot__card"><b>The farmhouse</b><span>Private, just for your group. Up to 8 guests included.</span></div></div>
+        <div class="hotspot" data-spot="lawn"><i></i><div class="hotspot__card"><b>The lawn</b><span>Room for parties, family time and long weekend chill.</span></div></div>
+        <div class="hotspot" data-spot="hammock"><i></i><div class="hotspot__card"><b>Quiet corners</b><span>Peaceful, relaxing, and nowhere you need to be.</span></div></div>
+      </div>
+    </section>
+
+    <!-- 7 · Policy -->
+    <section class="policy torn" id="policy">
+      <div class="container">
+        <header class="policy__head" data-reveal>
+          <p class="eyebrow">before you book</p>
+          <h2 class="h2">Good to <em>know.</em></h2>
+        </header>
+        <div class="policy__grid">
+          <article class="rule rule--no" data-reveal>
+            <span class="rule__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11"/><path d="M8.5 8.5l15 15"/></svg></span>
+            <h3>No cancellations</h3>
+            <p>Once a booking is confirmed it can't be cancelled.</p>
+          </article>
+          <article class="rule rule--move" data-reveal>
+            <span class="rule__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="5" y="7" width="22" height="20" rx="3"/><path d="M5 13h22M11 4v6M21 4v6M12 20h8M17 17l3 3-3 3"/></svg></span>
+            <h3>Date change is possible</h3>
+            <p>You can move your stay to another date, depending on availability.</p>
+          </article>
+          <article class="rule rule--days" data-reveal>
+            <span class="rule__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11"/><path d="M16 10v6l4 3"/></svg></span>
+            <h3>3 days' notice</h3>
+            <p>Date change requests must reach us at least 3 days before the booked date.</p>
+          </article>
+        </div>
+        <dl class="fine" data-reveal>
+          <div><dt>Check-in</dt><dd>12:30 PM</dd></div>
+          <div><dt>Check-out</dt><dd>10:00 AM</dd></div>
+          <div><dt>Weekdays</dt><dd>₹5,999 + maintenance</dd></div>
+          <div><dt>Weekends</dt><dd>₹6,999 + maintenance</dd></div>
+          <div><dt>Included</dt><dd>Up to 8 guests</dd></div>
+          <div><dt>Extra guests</dt><dd>₹250 per head</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <!-- 8 · Footer -->
+  <footer class="footer torn" id="contact" data-nav-dark>
+    <div class="container footer__top">
+      <div data-reveal>
+        <p class="eyebrow">see you at sereno</p>
+        <h2 class="h2">Slow mornings, <em>long evenings.</em></h2>
+        <div class="footer__cta">
+          <a class="btn btn--wa" href="https://wa.me/919989542998?text=Hi%20Sereno%20Retreat!%20I'd%20like%20to%20check%20availability." target="_blank" rel="noopener">
+            <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4a12 12 0 0 0-10.4 18L4 28l6.2-1.6A12 12 0 1 0 16 4z"/><path d="M11.5 10.5c.4-.9 1.4-.9 1.7 0l.8 2c.1.4 0 .8-.3 1.1l-.6.6a8 8 0 0 0 3.7 3.7l.6-.6c.3-.3.7-.4 1.1-.3l2 .8c.9.3.9 1.3 0 1.7-2.6 1.4-10.1-6-9-9z" class="fill"/></svg>
+            Message us
+          </a>
+          <a class="btn btn--cream" href="tel:+919989542998">Call 99895 42998</a>
+        </div>
+      </div>
+      <div class="footer__card" data-reveal>
+        <p>For booking and availability, message us any time on WhatsApp. We'll confirm your date, the maintenance charge and how to pay.</p>
+        <a class="footer__map" href="https://maps.app.goo.gl/rzSwaBsZPAJosWhr6?g_st=aw" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          View on Google Maps
+        </a>
+      </div>
+    </div>
+    <div class="container footer__cols">
+      <div><h3>Stay</h3><a href="#stay">Timings</a><a href="#inside">What you get</a><a href="#location">Location</a></div>
+      <div><h3>Book</h3><a href="#pricing">Pricing</a><a href="#book">Plan your stay</a><a href="#policy">Cancellation policy</a></div>
+      <div><h3>Contact</h3><a href="https://wa.me/919989542998" target="_blank" rel="noopener">WhatsApp</a><a href="tel:+919989542998">+91 99895 42998</a></div>
+    </div>
+    <div class="wordmark" aria-hidden="true">seren<span class="sunO"><span class="sunO__rays"></span><span class="sunO__disc"></span></span></div>
+    <div class="container footer__base">
+      <span>© <span data-year>2026</span> Sereno Retreat</span>
+      <span>no alarms were set in the making of this website</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/app.js"></script>
+  <script type="module" src="js/world.js"></script>
+</body>
+</html>
